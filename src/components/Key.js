@@ -9,8 +9,13 @@ function Key({ keyValue, bigKey }) {
       if (currentAttempt.letterPosition !== 5)
         return;
       setCurrentAttempt({ attempt: currentAttempt.attempt + 1, letterPosition: 0 });
-    } else 
-    if (currentAttempt.letterPosition > 4) return;
+    } else if (keyValue === 'DELETE') {
+      if (currentAttempt.letterPosition === 0) return;
+      const newBoard = [...board];
+      newBoard[currentAttempt.attempt][currentAttempt.letterPosition - 1] = '';
+      setBoard(newBoard);
+      setCurrentAttempt({ ...currentAttempt, letterPosition: currentAttempt.letterPosition - 1 });
+    } else if (currentAttempt.letterPosition > 4) return;
     const newBoard = [...board];
     newBoard[currentAttempt.attempt][currentAttempt.letterPosition] = keyValue;
     setBoard(newBoard);
@@ -20,7 +25,7 @@ function Key({ keyValue, bigKey }) {
     <div className="key" id={bigKey && "big"} onClick={selectLetter}>
       {keyValue}
     </div>
-  
+
   );
 }
 
