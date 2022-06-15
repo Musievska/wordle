@@ -1,9 +1,12 @@
 import React from 'react'
 import Letter from './Letter';
+import { AppContext } from '../App';
+
 
 function Board() {
     return (
         <div className="board">
+            {" "}
             <div className="row">
                 <Letter letterPosition={0} attemptValue={0} />
                 <Letter letterPosition={1} attemptValue={0} />
