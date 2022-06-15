@@ -4,7 +4,7 @@ import { AppContext } from "../App";
 
 
 function KeyBoard() {
-    const {onEnter, onDelete, onSelectLetter, currentAttempt} = useContext(AppContext);
+    const {onEnter, onDelete, onSelectLetter, currentAttempt, gameOver, disabledLetters, board} = useContext(AppContext);
 
     const keys1 = ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'];
     const keys2 = ['A', 'B', 'D', 'F', 'G', 'H', 'J', 'K', 'L'];
@@ -12,9 +12,10 @@ function KeyBoard() {
 
     const handleKeyBoard = useCallback(
         (event) => {
+            if(gameOver.gameOver) return;
             if (event.keyValue === 'ENTER') {
                 onEnter();
-            } else if (event.keyValue === 'DELETE') {
+            } else if (event.keyValue === 'Backspace') {
                 onDelete();
             } else {
                 keys1.forEach((key) => {
@@ -44,22 +45,24 @@ function KeyBoard() {
         }
     }, [handleKeyBoard]);
 
+    console.log(disabledLetters);
+
     return (
         <div className="keyboard" onKeyDown={handleKeyBoard}>
             <div className="line1">
                 {keys1.map((key) => {
-                    return <Key keyValue={key} />
+                    return <Key keyValue={key} disabled={disabledLetters.includes(key)} />
                 })}
             </div>
             <div className="line2">
                 {keys2.map((key) => {
-                    return <Key keyValue={key} />
+                    return <Key keyValue={key} disabled={disabledLetters.includes(key)} />
                 })}
             </div>
             <div className="line3">
                 <Key keyValue={"ENTER"} bigKey />
                 {keys3.map((key) => {
-                    return <Key keyValue={key} />
+                    return <Key keyValue={key} disabled={disabledLetters.includes(key)} />
                 })}
                 <Key keyValue={"DELETE"} bigKey />
             </div>
