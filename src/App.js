@@ -1,21 +1,48 @@
 import './App.css';
 import Board from './components/Board';
 import KeyBoard from './components/KeyBoard';
-import { useState, createContext } from 'react';
+import React, { useState, createContext, useEffect } from 'react';
 import { boardDefaultValue } from './components/Words';
+import GameOver from './components/GameOver';
 
 export const AppContext = createContext()
 
 function App() {
   const [board, setBoard] = useState(boardDefaultValue);
   const [currentAttempt, setCurrentAttempt] = useState({ attempt: 0, letterPosition: 0 });
+  const [correctWord, setCorrectWord] = useState('');
+  const [disabledLetters, setDisabledLetters] = useState([]);
+  const [gameOver, setGameOver] = useState({
+    gameOver: false,
+    guessWord: false,
+  });
 
-  const correctWord = '';
+  useEffect(() => {
+
+  })
 
   const onEnter = () => {
-    if (currentAttempt.letterPosition !== 5) return;
+    if (currentAttempt.letter !== 5) return;
+    let currentWord = '';
+    for (let i = 0; i < 5; i++){
+      currentWord += board[currentAttempt.attempt][i];
+    }
 
-    
+    if (currentWord === correctWord) {
+      setGameOver({
+        gameOver: true,
+        guessedWord: true
+      });
+      return;
+    }
+    console.log(currentAttempt);
+    if (currentAttempt.attempt === 5) {
+      setGameOver({
+        gameOver: true,
+        guessedWord: false
+      });
+      return;
+    }
   }
 
   const onDelete = () => {
