@@ -10,6 +10,7 @@ function App() {
   const [board, setBoard] = useState(boardDefaultValue);
   const [currentAttempt, setCurrentAttempt] = useState({ attempt: 0, letterPosition: 0 });
 
+  const correctWord = '';
 
   const onEnter = () => {
     if (currentAttempt.letterPosition !== 5) return;
