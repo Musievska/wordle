@@ -46,19 +46,22 @@ function App() {
   }
 
   const onDelete = () => {
-    if (currentAttempt.letterPosition === 0) return;
+    if (currentAttempt.letter === 0) return;
     const newBoard = [...board];
-    newBoard[currentAttempt.attempt][currentAttempt.letterPosition - 1] = '';
+    newBoard[currentAttempt.attempt][currentAttempt.letter - 1] = '';
     setBoard(newBoard);
-    setCurrentAttempt({ ...currentAttempt, letterPosition: currentAttempt.letterPosition - 1 });
+    setCurrentAttempt({ ...currentAttempt, letter: currentAttempt.letter - 1 });
   }
 
   const onSelectLetter = (key) => {
-    if (currentAttempt.letterPosition > 4) return;
+    if (currentAttempt.letter > 4) return;
     const newBoard = [...board];
-    newBoard[currentAttempt.attempt][currentAttempt.letterPosition] = key;
+    newBoard[currentAttempt.attempt][currentAttempt.letter] = key;
     setBoard(newBoard);
-    setCurrentAttempt({ ...currentAttempt, letterPosition: currentAttempt.letterPosition + 1 });
+    setCurrentAttempt({
+      attempt: currentAttempt.attempt,
+      letter: currentAttempt.letter + 1,
+     });
   }
 
   return (
@@ -66,10 +69,22 @@ function App() {
       <nav>
         <h1>WORDLE</h1>
       </nav>
-      <AppContext.Provider value={{ board, setBoard, currentAttempt, setCurrentAttempt, onEnter, onDelete, onSelectLetter }}>
+      <AppContext.Provider value={{
+        board,
+        setBoard,
+        currentAttempt,
+        setCurrentAttempt,
+        onEnter,
+        onDelete,
+        onSelectLetter, 
+        correctWord,
+        setDisabledLetters,
+        disabledLetters,
+        gameOver
+      }}>
         <div className="game">
           <Board />
-          <KeyBoard />
+         {gameOver.gameOver ? <GameOver /> :<KeyBoard />}
         </div>
       </AppContext.Provider>
     </div>

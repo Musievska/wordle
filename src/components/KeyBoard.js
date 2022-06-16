@@ -4,7 +4,15 @@ import { AppContext } from "../App";
 
 
 function KeyBoard() {
-    const {onEnter, onDelete, onSelectLetter, currentAttempt, gameOver, disabledLetters, board} = useContext(AppContext);
+    const { onEnter,
+        onDelete,
+        onSelectLetter,
+        currentAttempt,
+        gameOver,
+        disabledLetters,
+        board
+    }
+        = useContext(AppContext);
 
     const keys1 = ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'];
     const keys2 = ['A', 'B', 'D', 'F', 'G', 'H', 'J', 'K', 'L'];
@@ -13,9 +21,9 @@ function KeyBoard() {
     const handleKeyBoard = useCallback(
         (event) => {
             if(gameOver.gameOver) return;
-            if (event.keyValue === 'ENTER') {
+            if (event.key === 'Enter') {
                 onEnter();
-            } else if (event.keyValue === 'Backspace') {
+            } else if (event.key === 'Backspace') {
                 onDelete();
             } else {
                 keys1.forEach((key) => {
