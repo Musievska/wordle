@@ -2,30 +2,45 @@ import './App.css';
 import Board from './components/Board';
 import KeyBoard from './components/KeyBoard';
 import React, { useState, createContext, useEffect } from 'react';
-import { boardDefaultValue } from './components/Words';
+import { boardDefaultValue, generateWordSet } from './Words';
 import GameOver from './components/GameOver';
 
 export const AppContext = createContext()
 
 function App() {
   const [board, setBoard] = useState(boardDefaultValue);
-  const [currentAttempt, setCurrentAttempt] = useState({ attempt: 0, letterPosition: 0 });
+  const [currentAttempt, setCurrentAttempt] = useState({ attempt: 0, letter: 0 });
   const [correctWord, setCorrectWord] = useState('');
   const [disabledLetters, setDisabledLetters] = useState([]);
+  const [wordSet, setWordSet] = useState(new Set());
   const [gameOver, setGameOver] = useState({
     gameOver: false,
     guessWord: false,
   });
 
   useEffect(() => {
-      
-  })
+    generateWordSet()
+      .then((words) => {
+        setWordSet(words.wordSet);
+        setCorrectWord(words.todayWord);
+      });
+  }, []);
 
   const onEnter = () => {
     if (currentAttempt.letter !== 5) return;
+
     let currentWord = '';
     for (let i = 0; i < 5; i++){
       currentWord += board[currentAttempt.attempt][i];
+    }
+
+    if (wordSet.has(currentWord.toLowerCase())) {
+      setCurrentAttempt({
+        attempt: currentAttempt.attempt + 1,
+        letter: 0
+      });
+    } else {
+      alert('Word Not Found');
     }
 
     if (currentWord === correctWord) {
@@ -69,7 +84,8 @@ function App() {
       <nav>
         <h1>WORDLE</h1>
       </nav>
-      <AppContext.Provider value={{
+      <AppContext.Provider
+        value={{
         board,
         setBoard,
         currentAttempt,
