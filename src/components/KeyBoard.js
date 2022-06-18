@@ -43,7 +43,7 @@ function KeyBoard() {
                 });
             }
         },
-        [gameOver.gameOver, keys1, keys2, keys3, onDelete, onEnter, onSelectLetter]
+        [currentAttempt]
     );
 
     useEffect(() => {
